@@ -12,8 +12,8 @@ async fn stock() -> Result<NamedFile> {
 
 async fn index() -> Result<NamedFile> {
 
-    let body = iex::make_request().await;
-    println!("{}", body);
+    let hloc_vec = iex::request_historical_prices("aapl").await;
+    println!("{:?}", hloc_vec);
     Ok(NamedFile::open("static/index.html")?)
 }
 

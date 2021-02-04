@@ -10,7 +10,7 @@ lazy_static! {
 }
 #[derive(Debug)]
 #[derive(Serialize, Deserialize)]
-struct HLOC {
+pub struct HLOC {
     high: f32,
     low: f32,
     open: f32,
@@ -32,12 +32,12 @@ async fn make_request(url_without_token: &str) -> Vec<HLOC> {
     serde_json::from_str(&body).unwrap()
 }
 
-async fn request_intraday_prices(symbol: &str) -> Vec<HLOC> {
+pub async fn request_intraday_prices(symbol: &str) -> Vec<HLOC> {
     // TODO: make sandbox part of config
     make_request(&format!("https://sandbox.iexapis.com/stable/stock/{}/intraday-prices", symbol)).await
 }
 
-async fn request_historical_prices(symbol: &str) -> Vec<HLOC> {
+pub async fn request_historical_prices(symbol: &str) -> Vec<HLOC> {
     // TODO: make sandbox part of config
     make_request(&format!("https://sandbox.iexapis.com/stable/stock/{}/chart/1m", symbol)).await
 }
