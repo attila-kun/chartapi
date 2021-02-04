@@ -1085,6 +1085,8 @@ dependencies = [
  "actix-rt",
  "actix-web",
  "lazy_static",
+ "serde",
+ "serde_json",
  "url",
 ]
 
