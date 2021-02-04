@@ -7,9 +7,9 @@ lazy_static! {
     static ref IEX_TOKEN: String = std::env::var("IEX_TOKEN").unwrap();
 }
 
-async fn make_request(url_base: &str) -> String {
+async fn make_request(url_without_token: &str) -> String {
 
-    let mut url = url::Url::parse(url_base).unwrap();
+    let mut url = url::Url::parse(url_without_token).unwrap();
     url.query_pairs_mut().append_pair("token", &IEX_TOKEN);
 
     let mut client = Client::default();
