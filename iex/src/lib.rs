@@ -2,10 +2,10 @@ use std::str::FromStr;
 
 use actix_web::client::Client;
 use actix_rt;
-use chrono::{naive::NaiveDate, TimeZone};
+use chrono::{naive::NaiveDate};
 use lazy_static::{lazy_static};
 use url;
-use serde::{de::Error, Deserialize, Deserializer, Serialize};
+use serde::{Deserialize, Deserializer};
 use serde_json;
 
 lazy_static! {
