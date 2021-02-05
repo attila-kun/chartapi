@@ -1,33 +1,11 @@
-use std::str::FromStr;
-
 use actix_web::client::Client;
 use actix_rt;
-use chrono::{naive::NaiveDate};
+use dto::{HLOC};
 use lazy_static::{lazy_static};
 use url;
-use serde::{Deserialize, Deserializer};
-use serde_json;
 
 lazy_static! {
     static ref IEX_TOKEN: String = std::env::var("IEX_TOKEN").unwrap();
-}
-#[derive(Debug, Deserialize)]
-pub struct HLOC {
-    high: f32,
-    low: f32,
-    open: f32,
-    close: f32,
-    #[serde(deserialize_with = "from_date")]
-    date: NaiveDate
-}
-
-fn from_date<'de, D>(deserializer: D) -> Result<NaiveDate, D::Error>
-where
-    D: Deserializer<'de>,
-{
-    let s: &str = Deserialize::deserialize(deserializer).unwrap();
-    let mut date = NaiveDate::from_str(s).unwrap();
-    Ok(date)
 }
 
 async fn make_request(url_without_token: &str) -> Vec<HLOC> {

@@ -1,19 +1,16 @@
-use chart;
-use iex;
-
 use actix_files::NamedFile;
-use actix_web::{get, post, web, App, HttpResponse, HttpRequest, HttpServer, Responder, Result};
+use actix_web::{web, App, HttpServer, Result};
+use chart;
 
 async fn stock() -> Result<NamedFile> {
-    chart::create_chart();
+    let symbol = "tsla";
+    let points = iex::request_historical_prices(symbol).await;
+    chart::create_chart(symbol, points).unwrap();
     println!("Handling stock request");
     Ok(NamedFile::open("target/stock.png")?)
 }
 
 async fn index() -> Result<NamedFile> {
-
-    let hloc_vec = iex::request_historical_prices("aapl").await;
-    println!("{:?}", hloc_vec);
     Ok(NamedFile::open("static/index.html")?)
 }
 

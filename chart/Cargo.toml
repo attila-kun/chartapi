@@ -8,4 +8,5 @@ edition = "2018"
 
 [dependencies]
 chrono = "0.4"
+dto = { path = "../dto" }
 plotters = { path = "../../plotters" }

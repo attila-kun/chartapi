@@ -514,6 +514,7 @@ name = "chart"
 version = "0.1.0"
 dependencies = [
  "chrono",
+ "dto",
  "plotters",
 ]
 
@@ -524,6 +525,7 @@ dependencies = [
  "actix-files",
  "actix-web",
  "chart",
+ "dto",
  "iex",
 ]
 
@@ -716,6 +718,15 @@ name = "discard"
 version = "1.0.4"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "212d0f5754cb6769937f4501cc0e67f4f4483c8d2c3e1e922ee9edbe4ab4c7c0"
+
+[[package]]
+name = "dto"
+version = "0.1.0"
+dependencies = [
+ "chrono",
+ "serde",
+ "serde_json",
+]
 
 [[package]]
 name = "dwrote"
@@ -1084,9 +1095,8 @@ version = "0.1.0"
 dependencies = [
  "actix-rt",
  "actix-web",
- "chrono",
+ "dto",
  "lazy_static",
- "serde",
  "serde_json",
  "url",
 ]
