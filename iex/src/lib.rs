@@ -34,7 +34,14 @@ pub async fn request_historical_prices(symbol: &str) -> Vec<HLOC> {
 }
 
 #[actix_rt::test]
-pub async fn make_request_test() {
-    let body = request_historical_prices("tsla").await;
-    println!("body is: {:?}", body);
+async fn test_historical_prices() {
+    let body = request_historical_prices("aapl").await;
+    assert!(body.len() > 0);
+}
+
+#[actix_rt::test]
+async fn test_intraday_prices() {
+    let body = request_intraday_prices("aapl").await;
+    assert!(body.len() > 0);
+    // println!("{:?}", body);
 }
