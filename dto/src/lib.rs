@@ -3,7 +3,7 @@ use serde::{Deserialize, Deserializer};
 use serde_json;
 use std::str::FromStr;
 
-#[derive(Debug, Deserialize)]
+#[derive(Clone, Debug, Deserialize)]
 pub struct HLOC {
     pub high: f32,
     pub low: f32,
