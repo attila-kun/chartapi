@@ -17,6 +17,5 @@ where
     D: Deserializer<'de>,
 {
     let s: &str = Deserialize::deserialize(deserializer).unwrap();
-    let mut date = NaiveDate::from_str(s).unwrap();
-    Ok(date)
+    Ok(NaiveDate::from_str(s).unwrap())
 }

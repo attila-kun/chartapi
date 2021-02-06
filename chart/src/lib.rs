@@ -1,14 +1,11 @@
 use chrono::{Date, Duration, NaiveDate, Utc};
 use dto::{HLOC};
+use image::{png::{PngEncoder}};
 use plotters::prelude::*;
 
-pub fn create_chart(symbol: &str, points: Vec<HLOC>) -> Result<Vec<u8>, Box<dyn std::error::Error>> {
-
-    let start = std::time::Instant::now();
+pub fn create_chart(symbol: &str, points: Vec<HLOC>, width: u32, height: u32) -> Result<Vec<u8>, Box<dyn std::error::Error>> {
 
     let font = ("sans-serif", 50.0).into_font();
-    let width: u32 = 500;
-    let height: u32 = 500;
     let buffer_size = width as usize * height as usize * 3;
     let mut buffer: Vec<u8> = vec![0; buffer_size as usize];
 
@@ -76,10 +73,31 @@ pub fn create_chart(symbol: &str, points: Vec<HLOC>) -> Result<Vec<u8>, Box<dyn 
         })).unwrap();
     }
 
-    let duration = start.elapsed();
-    println!("Time elapsed in expensive_function() is: {:?}", duration);
-
     Ok(buffer)
+}
+
+fn convert_to_png(buffer: Vec<u8>, width: u32, height: u32) -> Result<Vec<u8>, Box<dyn std::error::Error>> {
+    let mut png_buffer: Vec<u8> = Vec::new();
+    let encoder = PngEncoder::new(&mut png_buffer);
+    let encode_result = encoder.encode(&buffer, width, height, image::ColorType::Rgb8);
+    match encode_result {
+        Ok(()) => Ok(png_buffer),
+        Err(error) => Err(Box::new(error))
+    }
+}
+
+pub fn create_png_chart(symbol: &str, points: Vec<HLOC>, width: u32, height: u32) -> Result<Vec<u8>, Box<dyn std::error::Error>> {
+    let start = std::time::Instant::now();
+    let raw_chart = create_chart(symbol, points, width, height);
+    match raw_chart {
+        Ok(bytes) => {
+            let bytes = convert_to_png(bytes, width, height).unwrap();
+            let duration = start.elapsed();
+            println!("Time elapsed generating chart for symbol {} is: {:?}", symbol, duration);
+            Ok(bytes)
+        },
+        Err(error) => Err(error)
+    }
 }
 
 fn convert_date(naive_date: NaiveDate) -> Date<Utc> {
@@ -96,6 +114,6 @@ fn write_chart_to_buffer() {
         close: -2.5f32,
         date: NaiveDate::from_ymd(2021, 1, 2)
     });
-    let result = create_chart("tsla", points.to_vec());
+    let result = create_png_chart("tsla", points.to_vec(), 500, 500);
     assert!(result.is_ok());
 }
