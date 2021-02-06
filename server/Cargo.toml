@@ -10,3 +10,4 @@ actix-web = "3.3.2"
 chart = { path = "../chart" }
 dto = { path = "../dto" }
 iex = { path = "../iex" }
+serde = { version = "1.0.123", features = ["derive"] }
