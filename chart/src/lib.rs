@@ -3,7 +3,7 @@ use dto::{HLOC};
 use image::{png::{PngEncoder}};
 use plotters::prelude::*;
 
-pub fn create_chart(symbol: &str, points: Vec<HLOC>, width: u32, height: u32) -> Result<Vec<u8>, Box<dyn std::error::Error>> {
+fn create_chart(symbol: &str, points: Vec<HLOC>, width: u32, height: u32) -> Result<Vec<u8>, Box<dyn std::error::Error>> {
 
     let font = ("sans-serif", 50.0).into_font();
     let buffer_size = width as usize * height as usize * 3;
