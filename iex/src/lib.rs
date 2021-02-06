@@ -28,14 +28,14 @@ pub async fn request_intraday_prices(symbol: &str) -> Vec<HLOC> {
     make_request(&format!("https://sandbox.iexapis.com/stable/stock/{}/intraday-prices", symbol)).await
 }
 
-pub async fn request_historical_prices(symbol: &str) -> Vec<HLOC> {
+pub async fn request_historical_prices(symbol: &str, interval: &str) -> Vec<HLOC> {
     // TODO: make sandbox part of config
-    make_request(&format!("https://sandbox.iexapis.com/stable/stock/{}/chart/1m", symbol)).await
+    make_request(&format!("https://sandbox.iexapis.com/stable/stock/{}/chart/{}", symbol, interval)).await
 }
 
 #[actix_rt::test]
 async fn test_historical_prices() {
-    let body = request_historical_prices("aapl").await;
+    let body = request_historical_prices("aapl", "1m").await;
     assert!(body.len() > 0);
 }
 
