@@ -1,9 +1,10 @@
 use actix_web::client::Client;
 use actix_rt;
+use async_std::sync::Mutex;
 use dto::{HLOC};
 use lazy_static::{lazy_static};
 use lru::{LruCache};
-use std::{hash::Hash, sync::{Arc, Mutex}};
+use std::{hash::Hash, sync::{Arc}};
 use url;
 
 type PriceCache<K> = Arc<Mutex<LruCache<K, Vec<HLOC>>>>;
@@ -43,7 +44,7 @@ async fn request_prices<K>(
     key: K
 ) -> Vec<HLOC> where K : Hash + Eq {
 
-    let mut cache = cache.lock().unwrap();
+    let mut cache = cache.lock().await;
     let option = cache.get(&key);
 
     match option {
