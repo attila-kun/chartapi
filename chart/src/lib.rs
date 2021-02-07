@@ -58,7 +58,7 @@ fn create_chart(symbol: &str, points: Vec<HLOC>, width: u32, height: u32) -> Res
         let mut configure = built_chart.configure_mesh();
 
         let x_label_formatter = &(|&d: &Date<Utc>| {
-            if from_date == d { return String::from("") } // skip first
+            if from_date == d || to_date == d { return String::from("") } // skip first and last
             return format!("{}", d.format("%F"));
         });
 
