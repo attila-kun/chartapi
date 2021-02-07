@@ -56,6 +56,7 @@ async fn index() -> Result<NamedFile> {
 
 #[actix_web::main]
 async fn main() -> std::io::Result<()> {
+    chart::initialize_font();
     HttpServer::new(|| {
         App::new()
             .service(chart_symbol)

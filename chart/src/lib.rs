@@ -3,9 +3,19 @@ use dto::{HLOC};
 use image::{png::{PngEncoder}};
 use plotters::prelude::*;
 
+fn get_font<'a>() -> FontDesc<'a> {
+    ("sans-serif", 50.0).into_font()
+}
+
+// We must initialize the font cache prior to use, otherwise hitting the server with a large concurrent load right after
+// server start will result in double-free errors coming from plotters.
+pub fn initialize_font() {
+    get_font();
+}
+
 fn create_chart(symbol: &str, points: Vec<HLOC>, width: u32, height: u32) -> Result<Vec<u8>, Box<dyn std::error::Error>> {
 
-    let font = ("sans-serif", 50.0).into_font();
+    let font = get_font();
     let buffer_size = width as usize * height as usize * 3;
     let mut buffer: Vec<u8> = vec![0; buffer_size as usize];
 
